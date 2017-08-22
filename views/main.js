@@ -1,16 +1,21 @@
-var html = require('choo/html')
+const html = require('choo/html')
 
-var TITLE = '🚂🚋🚋'
+const TaskList = require('../components/task-list')
+const taskList = new TaskList()
+
+const TITLE = 'Actionable'
 
 module.exports = view
 
 function view (state, emit) {
   if (state.title !== TITLE) emit(state.events.DOMTITLECHANGE, TITLE)
+  if (!state.tasksFetched) emit('fetchTasks')
+
   return html`
-    <body class="sans-serif">
-      <h1 class="f-headline pa3 pa4-ns">
-        Choo choo!
-      </h1>
+    <body>
+      <div class="container">
+        ${taskList.render(state.tasks)}
+      </div>
     </body>
   `
 }

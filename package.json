@@ -5,19 +5,33 @@
   "scripts": {
     "build": "bankai build index.js",
     "inspect": "bankai inspect index.js",
-    "start": "bankai start index.js",
+    "start": "budo index.js --live --port 8080",
     "test": "standard && test-deps",
     "test-deps": "dependency-check . && dependency-check . --extra --no-dev -i tachyons"
   },
   "dependencies": {
+    "axios": "^0.16.2",
     "choo": "^6.0.0-3",
     "choo-devtools": "^1.3.1",
     "choo-log": "^7.1.0",
-    "choo-service-worker": "^2.1.6",
-    "tachyons": "^4.7.4"
+    "choo-reload": "^1.0.0",
+    "dragula": "github:palsch/dragula",
+    "eres": "^1.0.0",
+    "localenvify": "^1.0.1",
+    "lodash": "^4.17.4",
+    "materialize-css": "^0.100.1",
+    "nanocomponent": "^6.0.0",
+    "nanogql": "^1.0.5"
   },
   "devDependencies": {
-    "bankai": "^5.0.0-1",
+    "bankai": "^9.0.0-1",
+    "budo": "^10.0.4",
     "standard": "^10.0.2"
+  },
+  "browserify": {
+    "transform": [
+      "localenvify",
+      "sheetify/transform"
+    ]
   }
 }
