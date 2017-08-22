@@ -73,12 +73,11 @@ module.exports = class TaskList extends Nanocomponent {
     `
   }
 
-  enableDrag () {
-    const lists = this.element.querySelectorAll('.task-list')
-    const listsArray = Array.from(lists)
-    listsArray.push(this.element)
-    dragula(listsArray, { siblingClass: 'task-item' })
-      .on('drag', this.onDragBegin)
+  load () {
+    dragula({
+      siblingClass: 'task-item',
+      isContainer: (el) => el.classList.contains('task-list')
+    }).on('drag', this.onDragBegin)
       .on('dragend', this.onDragEnd)
       .on('drop', this.onDrop)
   }
@@ -97,13 +96,5 @@ module.exports = class TaskList extends Nanocomponent {
 
   update (tasks) {
     return (tasks !== this.tasks)
-  }
-
-  load () {
-    this.enableDrag()
-  }
-
-  afterupdate () {
-    this.enableDrag()
   }
 }
