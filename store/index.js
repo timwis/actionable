@@ -10,6 +10,7 @@ module.exports = store
 function store (state, emitter) {
   state.tasks = []
   state.tasksFetched = false
+  state.actionable = false
 
   emitter.on('fetchTasks', async () => {
     // const query = queries.allTasks()
@@ -19,6 +20,11 @@ function store (state, emitter) {
     // state.tasks = response.data.data.allTasks
     state.tasks = require('./sample-data.json').data.allTasks
     state.tasksFetched = true
+    emitter.emit('render')
+  })
+
+  emitter.on('setActionable', (newValue) => {
+    state.actionable = newValue
     emitter.emit('render')
   })
 }

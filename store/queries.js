@@ -11,6 +11,9 @@ module.exports = {
         parent {
           id
         }
+        children {
+          id
+        }
       }
     }
   `
