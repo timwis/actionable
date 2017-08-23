@@ -1,6 +1,6 @@
 const Nanocomponent = require('nanocomponent')
-const groupBy = require('lodash/groupBy')
 const bindAll = require('lodash/bindAll')
+const arrayToTree = require('array-to-tree')
 const html = require('choo/html')
 const dragula = require('dragula')
 const css = require('sheetify')
@@ -47,19 +47,16 @@ module.exports = class TaskList extends Nanocomponent {
 
   createElement (tasks) {
     this.tasks = tasks
-    this.tasksByParent = groupBy(tasks, 'parent.id')
-    const topLevelTasks = tasks.filter((task) => !task.parent)
+    const taskTree = arrayToTree(tasks, { parentProperty: 'parent.id' })
 
     return html`
       <ul class="task-list ${styles}">
-        ${topLevelTasks.map(this.recursiveTask)}
+        ${taskTree.map(this.recursiveTask)}
       </ul>
     `
   }
 
   recursiveTask (task) {
-    const children = this.tasksByParent[task.id] || []
-
     return html`
       <li class="task-container" id="task-${task.id}">
         <p class="task-item">
@@ -67,7 +64,7 @@ module.exports = class TaskList extends Nanocomponent {
           <label class="task-title" for="${task.id}">${task.title}</label>
         </p>
         <ul class="task-list">
-          ${children.map(this.recursiveTask)}
+          ${task.children.map(this.recursiveTask)}
         </ul>
       </li>
     `
